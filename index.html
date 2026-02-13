@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Giveaway · 10,000 Robux every Saturday</title>
-    <!-- Font Awesome 6 (free) for sun/moon icons & clean icons -->
+    <!-- Font Awesome 6 (free) for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Font: Inter (modern, professional) -->
+    <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
+        /* same base styles as before, with additions for new elements */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* CSS variables for light theme (default) */
         :root {
             --bg-body: #ffffff;
             --bg-card: #f8faff;
@@ -31,9 +31,10 @@
             --footer-text: #4b5563;
             --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
             --toggle-hover: #f0f4ff;
+            --success-green: #10b981;
+            --overlay-bg: rgba(0, 0, 0, 0.5);
         }
 
-        /* dark theme variables */
         body.dark-theme {
             --bg-body: #0b1120;
             --bg-card: #1a2332;
@@ -47,27 +48,27 @@
             --footer-text: #9aa8b9;
             --shadow-sm: 0 20px 30px -10px rgba(0, 15, 40, 0.6);
             --toggle-hover: #26334d;
+            --success-green: #34d399;
+            --overlay-bg: rgba(0, 0, 0, 0.7);
         }
 
         body {
-            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            font-family: "Inter", system-ui, sans-serif;
             background-color: var(--bg-body);
             color: var(--text-primary);
-            line-height: 1.5;
-            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* no animation on page load, just subtle color transitions for theme switch (still clean) */
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* ----- header / top bar ----- */
+        /* top bar */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -111,7 +112,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: transparent;
             transition: background-color 0.15s;
         }
 
@@ -119,18 +119,11 @@
             background-color: var(--toggle-hover);
         }
 
-        .theme-toggle .fa-sun {
-            display: none;
-        }
-        .dark-theme .theme-toggle .fa-moon {
-            display: none;
-        }
-        .dark-theme .theme-toggle .fa-sun {
-            display: inline-block;
-            color: #fbbf24;
-        }
+        .theme-toggle .fa-sun { display: none; }
+        .dark-theme .theme-toggle .fa-moon { display: none; }
+        .dark-theme .theme-toggle .fa-sun { display: inline-block; color: #fbbf24; }
 
-        /* ----- main content card ----- */
+        /* main card */
         .giveaway-card {
             background-color: var(--bg-card);
             border-radius: 32px;
@@ -147,9 +140,7 @@
             line-height: 1.2;
             margin-bottom: 16px;
         }
-        .hero-title span {
-            color: var(--accent-blue);
-        }
+        .hero-title span { color: var(--accent-blue); }
 
         .hero-sub {
             font-size: 1.2rem;
@@ -168,14 +159,9 @@
             align-items: center;
             justify-content: space-between;
             margin: 32px 0 36px;
-            color: var(--text-primary);
         }
 
-        .next-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+        .next-info { display: flex; flex-direction: column; gap: 4px; }
         .next-label {
             font-weight: 600;
             text-transform: uppercase;
@@ -183,10 +169,7 @@
             font-size: 0.9rem;
             color: var(--accent-blue);
         }
-        .next-date {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
+        .next-date { font-size: 1.5rem; font-weight: 700; }
         .countdown-badge {
             background-color: var(--bg-body);
             padding: 12px 22px;
@@ -194,12 +177,10 @@
             font-weight: 600;
             font-size: 1.3rem;
             color: var(--accent-blue);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
             border: 1px solid var(--border-light);
-            font-variant-numeric: tabular-nums;
         }
 
-        /* entry form */
+        /* entry sections */
         .entry-area {
             margin: 40px 0 24px;
         }
@@ -215,7 +196,7 @@
             gap: 16px;
             align-items: center;
         }
-        .roblox-input {
+        .roblox-input, .email-input {
             flex: 2 1 280px;
             padding: 18px 22px;
             border-radius: 60px;
@@ -227,14 +208,15 @@
             outline: none;
             transition: border 0.1s, box-shadow 0.1s;
         }
-        .roblox-input:focus {
+        .roblox-input:focus, .email-input:focus {
             border-color: var(--accent-blue);
             box-shadow: 0 0 0 3px rgba(30, 75, 210, 0.15);
         }
-        .dark-theme .roblox-input:focus {
+        .dark-theme .roblox-input:focus,
+        .dark-theme .email-input:focus {
             box-shadow: 0 0 0 3px rgba(82, 130, 255, 0.25);
         }
-        .enter-btn {
+        .enter-btn, .submit-email-btn {
             background-color: var(--accent-blue);
             color: white;
             border: none;
@@ -248,16 +230,25 @@
             align-items: center;
             gap: 10px;
             white-space: nowrap;
-            border: 1px solid transparent;
         }
-        .enter-btn i {
-            font-size: 1.1rem;
-        }
-        .enter-btn:hover {
+        .enter-btn:hover, .submit-email-btn:hover {
             background-color: #1340b0;
         }
-        .dark-theme .enter-btn:hover {
+        .dark-theme .enter-btn:hover,
+        .dark-theme .submit-email-btn:hover {
             background-color: #6d96ff;
+        }
+
+        .success-message {
+            color: var(--success-green);
+            font-weight: 600;
+            margin: 12px 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hidden {
+            display: none !important;
         }
 
         .fine-print {
@@ -266,7 +257,83 @@
             margin-top: 16px;
         }
 
-        /* recent winners minimal section (static, no animation) */
+        /* email section initially hidden */
+        #emailSection {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-light);
+        }
+
+        /* overlay / content locker */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--overlay-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(3px);
+        }
+        .overlay.hidden {
+            display: none;
+        }
+        .overlay-card {
+            background-color: var(--bg-card);
+            border-radius: 32px;
+            padding: 32px 28px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            text-align: center;
+            position: relative;
+        }
+        .close-overlay {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            line-height: 1;
+        }
+        .close-overlay:hover {
+            color: var(--accent-blue);
+        }
+        .overlay-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 10px 0 20px;
+        }
+        .offer-link {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-decoration: none;
+            margin: 20px 0 10px;
+            transition: background-color 0.15s;
+            word-break: break-all;
+        }
+        .offer-link:hover {
+            background-color: #1340b0;
+        }
+        .dark-theme .offer-link:hover {
+            background-color: #6d96ff;
+        }
+        .overlay-note {
+            font-size: 0.9rem;
+            color: var(--footer-text);
+            margin-top: 16px;
+        }
+
+        /* winners preview etc */
         .winners-preview {
             border-top: 1px dashed var(--border-light);
             padding-top: 28px;
@@ -291,10 +358,8 @@
         .winner-list span i {
             color: var(--accent-blue);
             margin-right: 6px;
-            font-size: 0.8rem;
         }
 
-        /* footer */
         .site-footer {
             text-align: center;
             padding: 32px 0 40px;
@@ -304,26 +369,17 @@
             margin-top: auto;
         }
 
-        /* responsive touches */
         @media (max-width: 650px) {
             .giveaway-card { padding: 32px 24px; }
             .hero-title { font-size: 2.2rem; }
             .next-saturday-box { flex-direction: column; align-items: flex-start; gap: 16px; }
-            .countdown-badge { align-self: flex-start; }
             .winner-list { flex-wrap: wrap; gap: 16px; margin-top: 12px; }
             .winners-preview { flex-direction: column; align-items: flex-start; }
-        }
-
-        /* just to be extra sure no unexpected animations */
-        * {
-            animation: none !important;
-            transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s; /* only smooth theme switch, not "animations" */
         }
     </style>
 </head>
 <body class="light-theme">
     <div class="container">
-        <!-- top bar with theme toggle (right) -->
         <header class="top-bar">
             <div class="logo-area">
                 <i class="fas fa-gift logo-icon"></i>
@@ -335,13 +391,12 @@
             </button>
         </header>
 
-        <!-- main content -->
         <main>
             <div class="giveaway-card">
                 <h1 class="hero-title">Win <span>10,000 Robux</span> <br> this Saturday</h1>
                 <p class="hero-sub">One lucky player takes it all. Every Saturday we randomly pick a winner. Enter with your Roblox username — it’s free.</p>
                 
-                <!-- next Saturday dynamic box -->
+                <!-- next Saturday box -->
                 <div class="next-saturday-box" id="nextSaturdayBox">
                     <div class="next-info">
                         <span class="next-label">🎁 next giveaway</span>
@@ -350,17 +405,30 @@
                     <div class="countdown-badge" id="countdownDisplay">0d 00h 00m 00s</div>
                 </div>
 
-                <!-- entry form (simple, no real action, just ui) -->
-                <div class="entry-area">
+                <!-- entry area: step 1 username -->
+                <div class="entry-area" id="usernameSection">
                     <label class="entry-label" for="robloxUser">🔹 Enter your Roblox username</label>
                     <div class="input-group">
                         <input type="text" id="robloxUser" class="roblox-input" placeholder="@username" value="">
                         <button class="enter-btn" id="enterGiveawayBtn"><i class="fas fa-arrow-right"></i> Enter now</button>
                     </div>
-                    <p class="fine-print"><i class="far fa-clock" style="margin-right: 4px;"></i> One entry per person · Winner announced on our community page every Saturday at 00:00 UTC</p>
+                    <div id="usernameSuccess" class="success-message hidden"><i class="fas fa-check-circle"></i> <span></span></div>
                 </div>
 
-                <!-- recent winners snippet (static for demo, but looks pro) -->
+                <!-- step 2 email section (hidden initially) -->
+                <div id="emailSection" class="hidden">
+                    <label class="entry-label" for="emailInput">📧 Enter your email to contact you if you win</label>
+                    <div class="input-group">
+                        <input type="email" id="emailInput" class="email-input" placeholder="your@email.com">
+                        <button class="submit-email-btn" id="submitEmailBtn"><i class="fas fa-envelope"></i> Submit</button>
+                    </div>
+                    <p class="fine-print">We'll only use this to notify the winner.</p>
+                </div>
+
+                <!-- fine print (always visible) -->
+                <p class="fine-print"><i class="far fa-clock" style="margin-right: 4px;"></i> One entry per person · Winner announced every Saturday at 00:00 UTC</p>
+
+                <!-- recent winners -->
                 <div class="winners-preview">
                     <span class="winners-title"><i class="fas fa-trophy" style="margin-right: 6px;"></i>RECENT WINNERS</span>
                     <div class="winner-list">
@@ -371,7 +439,7 @@
                 </div>
             </div>
 
-            <!-- extra trust row (like WordPress callout) -->
+            <!-- trust row -->
             <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin: 30px 0 10px; color: var(--text-secondary);">
                 <span><i class="fas fa-check-circle" style="color: var(--accent-blue);"></i> 100% legit</span>
                 <span><i class="fas fa-calendar-alt" style="color: var(--accent-blue);"></i> Every Saturday</span>
@@ -380,7 +448,6 @@
         </main>
     </div>
 
-    <!-- footer (simple, like wp theme) -->
     <footer class="site-footer">
         <div class="container">
             <p>© 2025 RBXGiveaway · Independent giveaway, not affiliated with Roblox Corporation</p>
@@ -388,56 +455,52 @@
         </div>
     </footer>
 
+    <!-- overlay / content locker (hidden by default) -->
+    <div id="overlay" class="overlay hidden">
+        <div class="overlay-card">
+            <button class="close-overlay" id="closeOverlayBtn">&times;</button>
+            <div class="overlay-title">🔓 one more step</div>
+            <p style="margin-bottom: 20px;">Complete a quick offer to verify you're human (this supports our giveaway).</p>
+            <a href="https://bouttiq.graphics/cl/i/krr67g" target="_blank" class="offer-link" id="offerLink">👉 Complete offer</a>
+            <p class="overlay-note">After completion, come back and close this message.</p>
+        </div>
+    </div>
+
     <script>
         (function() {
-            // ------ THEME TOGGLE with localStorage ------
-            const themeToggleBtn = document.getElementById('themeToggle');
+            // --- theme toggle ---
+            const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
-
-            // check localStorage or default to light
             const savedTheme = localStorage.getItem('rbxTheme') || 'light-theme';
-            body.classList.add(savedTheme); // classList handling
-
+            body.classList.add(savedTheme);
             function setTheme(theme) {
                 body.classList.remove('light-theme', 'dark-theme');
                 body.classList.add(theme);
                 localStorage.setItem('rbxTheme', theme);
             }
-
-            themeToggleBtn.addEventListener('click', () => {
-                if (body.classList.contains('light-theme')) {
-                    setTheme('dark-theme');
-                } else {
-                    setTheme('light-theme');
-                }
+            themeToggle.addEventListener('click', () => {
+                setTheme(body.classList.contains('light-theme') ? 'dark-theme' : 'light-theme');
             });
 
-            // ------ COUNTDOWN & NEXT SATURDAY LOGIC ------
+            // --- countdown (same as before) ---
             const nextDateSpan = document.getElementById('nextDateText');
             const countdownSpan = document.getElementById('countdownDisplay');
-
             function getNextSaturdayUTC() {
                 const now = new Date();
-                // use UTC to avoid timezone shifts
                 const utcNow = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
-                let dayOfWeekUTC = utcNow.getUTCDay(); // 0 = sun, 6 = sat
-                // days to add to reach next Saturday (if today saturday, go to next saturday -> 7 days)
+                let dayOfWeekUTC = utcNow.getUTCDay();
                 let daysToAdd = (6 - dayOfWeekUTC + 7) % 7;
-                if (daysToAdd === 0) daysToAdd = 7; // always next Saturday, not today
-
+                if (daysToAdd === 0) daysToAdd = 7;
                 const nextSaturday = new Date(utcNow);
                 nextSaturday.setUTCDate(utcNow.getUTCDate() + daysToAdd);
-                nextSaturday.setUTCHours(0, 0, 0, 0); // midnight UTC start of day
+                nextSaturday.setUTCHours(0, 0, 0, 0);
                 return nextSaturday;
             }
-
             function formatDateUTC(date) {
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-                return date.toLocaleDateString('en-US', options);
+                return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
             }
-
             function formatCountdown(ms) {
-                if (ms <= 0) return "00h 00m 00s"; // giveaway started (maybe)
+                if (ms <= 0) return "0d 00h 00m 00s";
                 const totalSeconds = Math.floor(ms / 1000);
                 const days = Math.floor(totalSeconds / 86400);
                 const hours = Math.floor((totalSeconds % 86400) / 3600);
@@ -445,60 +508,95 @@
                 const seconds = totalSeconds % 60;
                 return `${days}d ${hours.toString().padStart(2,'0')}h ${minutes.toString().padStart(2,'0')}m ${seconds.toString().padStart(2,'0')}s`;
             }
-
             function updateCountdown() {
                 const nextSaturday = getNextSaturdayUTC();
-                const nowUTC = new Date(new Date().toUTCString().slice(0, -4)); // hacky but robust: current time in UTC date object
-                // alternative: use Date.now() and target time in UTC
-                const targetTime = nextSaturday.getTime();
-                const nowTime = Date.now(); // local millis, but we built nextSaturday from UTC components, comparison works if we use UTC timezone consistently: nextSaturday is a date object representing midnight UTC. Using Date.now() gives local millis since epoch, but epoch is UTC, so it's fine.
-                // safer: use Date.UTC for current
-                const currentUTC = Date.now(); // yes, it's UTC epoch
-                const diff = targetTime - currentUTC;
-
-                if (diff < 0) {
-                    // if already past, recompute next saturday (should not happen, but just in case)
-                    // force next week by recalc
-                    location.reload(); // lazy but simple for edge case
-                } else {
-                    countdownSpan.textContent = formatCountdown(diff);
-                }
-
-                // update date text (doesn't change often, but fine)
+                const diff = nextSaturday.getTime() - Date.now();
+                if (diff < 0) location.reload(); // edge case
+                else countdownSpan.textContent = formatCountdown(diff);
                 nextDateSpan.textContent = formatDateUTC(nextSaturday);
             }
-
-            // initial call
             updateCountdown();
-            // update every second
             setInterval(updateCountdown, 1000);
 
-            // ------ tiny interaction for "Enter now" (just simulate, no animation) ------
+            // --- step 1: username handling ---
+            const usernameSection = document.getElementById('usernameSection');
+            const emailSection = document.getElementById('emailSection');
+            const usernameInput = document.getElementById('robloxUser');
             const enterBtn = document.getElementById('enterGiveawayBtn');
-            const userInput = document.getElementById('robloxUser');
+            const usernameSuccess = document.getElementById('usernameSuccess');
+            const successSpan = usernameSuccess.querySelector('span');
+
+            // step 2 elements
+            const emailInput = document.getElementById('emailInput');
+            const submitEmailBtn = document.getElementById('submitEmailBtn');
+
+            // overlay
+            const overlay = document.getElementById('overlay');
+            const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+            const offerLink = document.getElementById('offerLink');
+
+            // Username submit
             enterBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                const username = userInput.value.trim();
+                const username = usernameInput.value.trim();
                 if (username === '') {
                     alert('Please enter your Roblox username.');
-                } else if (username.length < 3) {
+                    return;
+                }
+                if (username.length < 3) {
                     alert('Username too short (min 3 characters).');
-                } else {
-                    alert(`✅ ${username}, you’re entered! Winner will be announced Saturday. (demo)`);
-                    userInput.value = ''; // optional
+                    return;
+                }
+                // show success message in green
+                successSpan.textContent = `✅ @${username} found!`;
+                usernameSuccess.classList.remove('hidden');
+                // hide username input group (but keep the success message visible)
+                // we hide the .input-group inside usernameSection
+                const usernameInputGroup = usernameSection.querySelector('.input-group');
+                usernameInputGroup.classList.add('hidden');
+                // show email section
+                emailSection.classList.remove('hidden');
+            });
+
+            // Email submit -> show overlay
+            submitEmailBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                if (email === '' || !email.includes('@') || !email.includes('.')) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+                // Show overlay
+                overlay.classList.remove('hidden');
+            });
+
+            // Close overlay
+            closeOverlayBtn.addEventListener('click', () => {
+                overlay.classList.add('hidden');
+            });
+
+            // Optional: close overlay if user clicks outside the card (click on overlay itself)
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.add('hidden');
                 }
             });
 
-            // optional: pressing Enter in input triggers button
-            userInput.addEventListener('keypress', (e) => {
+            // Enter key on username field triggers enter button
+            usernameInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     enterBtn.click();
                 }
             });
+            // Enter key on email field triggers submit button
+            emailInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitEmailBtn.click();
+                }
+            });
         })();
     </script>
-
-    <!-- small note: php-like structure (header, footer, content) is clear, just like a wp template -->
 </body>
 </html>
