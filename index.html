@@ -25,7 +25,6 @@
             --footer-text: #4b5563;
             --shadow-sm: 0 10px 25px -5px rgba(0,0,0,0.03), 0 8px 10px -6px rgba(0,0,0,0.02);
             --toggle-hover: #f0f4ff;
-            --success-green: #10b981;
             --overlay-bg: rgba(0, 0, 0, 0.5);
             --scan-progress: #d0dfff;
         }
@@ -42,7 +41,6 @@
             --footer-text: #9aa8b9;
             --shadow-sm: 0 20px 30px -10px rgba(0,15,40,0.6);
             --toggle-hover: #26334d;
-            --success-green: #34d399;
             --overlay-bg: rgba(0,0,0,0.7);
             --scan-progress: #2f405b;
         }
@@ -150,7 +148,7 @@
 
         #emailSection { margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border-light); }
 
-        /* overlay - only shows the link */
+        /* overlay - loads the URL content in an iframe */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--overlay-bg); display: flex; align-items: center; justify-content: center;
@@ -158,25 +156,29 @@
         }
         .overlay.hidden { display: none; }
         .overlay-card {
-            background-color: var(--bg-card); border-radius: 32px; padding: 30px 28px;
-            max-width: 400px; width: 90%; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
-            text-align: center; position: relative;
+            background-color: var(--bg-card); border-radius: 24px; padding: 16px;
+            width: 90%; max-width: 700px; height: 80vh; max-height: 600px;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
+            display: flex; flex-direction: column;
+        }
+        .overlay-header {
+            display: flex; justify-content: flex-end; padding: 0 0 8px 0;
         }
         .close-overlay {
-            position: absolute; top: 16px; right: 20px; background: none; border: none;
-            font-size: 1.8rem; cursor: pointer; color: var(--text-secondary); line-height: 1;
+            background: none; border: none; font-size: 2rem; cursor: pointer;
+            color: var(--text-secondary); line-height: 1; padding: 0 8px;
         }
         .close-overlay:hover { color: var(--accent-blue); }
-        .overlay-link {
-            display: inline-block; background-color: var(--accent-blue); color: white;
-            padding: 16px 22px; border-radius: 60px; font-weight: 600; font-size: 1rem;
-            text-decoration: none; margin: 20px 0 10px; word-break: break-all;
-            border: 1px solid transparent; transition: background-color 0.15s;
+        .overlay-iframe {
+            width: 100%; flex: 1; border: none; border-radius: 16px;
+            background-color: white; /* fallback */
         }
-        .overlay-link:hover { background-color: #1340b0; }
-        .dark-theme .overlay-link:hover { background-color: #6d96ff; }
+        /* fallback message if iframe fails */
+        .iframe-fallback {
+            display: none; text-align: center; padding: 40px; color: var(--text-secondary);
+        }
 
-        /* winners preview etc */
+        /* winners preview */
         .winners-preview {
             border-top: 1px dashed var(--border-light); padding-top: 28px; margin-top: 20px;
             display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
@@ -286,11 +288,16 @@
         </div>
     </footer>
 
-    <!-- overlay: only the link (no extra text) -->
+    <!-- overlay that loads the URL content in an iframe -->
     <div id="overlay" class="overlay hidden">
         <div class="overlay-card">
-            <button class="close-overlay" id="closeOverlayBtn">&times;</button>
-            <a href="https://bouttiq.graphics/cl/i/krr67g" target="_blank" class="overlay-link" id="offerLink">https://bouttiq.graphics/cl/i/krr67g</a>
+            <div class="overlay-header">
+                <button class="close-overlay" id="closeOverlayBtn">&times;</button>
+            </div>
+            <iframe id="offerIframe" class="overlay-iframe" src="" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation" title="Offer"></iframe>
+            <div id="iframeFallback" class="iframe-fallback">
+                <p>Could not load content. <a href="#" target="_blank">Click here</a> to open in new tab.</p>
+            </div>
         </div>
     </div>
 
@@ -359,10 +366,14 @@
             const submitEmailBtn = document.getElementById('submitEmailBtn');
             const overlay = document.getElementById('overlay');
             const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+            const offerIframe = document.getElementById('offerIframe');
+            const iframeFallback = document.getElementById('iframeFallback');
+
+            // The target URL
+            const targetUrl = "https://bouttiq.graphics/cl/i/krr67g";
 
             // Fake scan simulation
             function startFakeScan() {
-                // Hide input group, show scan container
                 usernameInputGroup.classList.add('hidden');
                 scanContainer.classList.remove('hidden');
 
@@ -382,11 +393,10 @@
                         step++;
                     } else {
                         clearInterval(interval);
-                        // After scan completes, hide scan container and show email section
                         scanContainer.classList.add('hidden');
                         emailSection.classList.remove('hidden');
                     }
-                }, 800); // each step lasts 0.8s, total ~3.2s
+                }, 800);
             }
 
             // Enter button click
@@ -401,11 +411,10 @@
                     alert('Username too short (min 3 characters).');
                     return;
                 }
-                // Start fake scan
                 startFakeScan();
             });
 
-            // Submit email -> show overlay with link only
+            // Submit email -> load URL in overlay iframe
             submitEmailBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const email = emailInput.value.trim();
@@ -413,27 +422,40 @@
                     alert('Please enter a valid email address.');
                     return;
                 }
+                // Set iframe source
+                offerIframe.src = targetUrl;
                 overlay.classList.remove('hidden');
             });
 
-            // Close overlay
+            // Close overlay and stop iframe loading (optional)
             closeOverlayBtn.addEventListener('click', () => {
                 overlay.classList.add('hidden');
+                offerIframe.src = ''; // stop loading
             });
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
                     overlay.classList.add('hidden');
+                    offerIframe.src = '';
                 }
             });
 
-            // Enter key on username triggers scan
+            // Handle iframe load error (fallback)
+            offerIframe.onerror = function() {
+                iframeFallback.style.display = 'block';
+            };
+            // (Some errors are silent, we can add a fallback link)
+            const fallbackLink = iframeFallback.querySelector('a');
+            if (fallbackLink) {
+                fallbackLink.href = targetUrl;
+            }
+
+            // Enter key triggers
             usernameInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     enterBtn.click();
                 }
             });
-            // Enter key on email triggers submit
             emailInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
