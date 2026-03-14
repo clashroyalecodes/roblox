@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Giveaway · Enter Email</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-body: #ffffff;
+            --bg-card: #f8faff;
+            --text-primary: #111827;
+            --text-secondary: #2c3e50;
+            --accent-blue: #1e4bd2;
+            --accent-light: #e6ecfe;
+            --border-light: #dbe1ed;
+            --input-bg: #ffffff;
+            --header-border: #eef2f6;
+            --footer-text: #4b5563;
+            --shadow-sm: 0 10px 25px -5px rgba(0,0,0,0.03), 0 8px 10px -6px rgba(0,0,0,0.02);
+            --toggle-hover: #f0f4ff;
+        }
+        body.dark-theme {
+            --bg-body: #0b1120;
+            --bg-card: #1a2332;
+            --text-primary: #edf2f7;
+            --text-secondary: #cbd5e1;
+            --accent-blue: #5282ff;
+            --accent-light: #26334d;
+            --border-light: #2d3a4f;
+            --input-bg: #1f2a3c;
+            --header-border: #252f41;
+            --footer-text: #9aa8b9;
+            --shadow-sm: 0 20px 30px -10px rgba(0,15,40,0.6);
+            --toggle-hover: #26334d;
+        }
+        body {
+            font-family: "Inter", system-ui, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            transition: background-color 0.2s, color 0.2s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* top bar */
+        .top-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 0; border-bottom: 1px solid var(--header-border); margin-bottom: 32px;
+        }
+        .logo-area { display: flex; align-items: center; gap: 8px; }
+        .logo-icon { color: var(--accent-blue); font-size: 1.8rem; }
+        .logo-text { font-weight: 700; font-size: 1.4rem; letter-spacing: -0.02em; color: var(--text-primary); }
+        .logo-text span { color: var(--accent-blue); }
+        .theme-toggle {
+            background: none; border: none; color: var(--text-primary); font-size: 1.6rem; cursor: pointer;
+            width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            transition: background-color 0.15s;
+        }
+        .theme-toggle:hover { background-color: var(--toggle-hover); }
+        .theme-toggle .fa-sun { display: none; }
+        .dark-theme .theme-toggle .fa-moon { display: none; }
+        .dark-theme .theme-toggle .fa-sun { display: inline-block; color: #fbbf24; }
+
+        /* main card */
+        .giveaway-card {
+            background-color: var(--bg-card); border-radius: 32px; padding: 48px 48px 56px;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); margin: 20px 0 40px;
+            text-align: center;
+        }
+        
+        .hero-title { 
+            font-size: 2.8rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; 
+        }
+        .hero-title span { color: var(--accent-blue); }
+        .hero-sub { 
+            font-size: 1.2rem; color: var(--text-secondary); max-width: 650px; margin: 0 auto 32px auto;
+        }
+
+        /* Prize badge */
+        .prize-badge {
+            display: inline-block;
+            background: var(--accent-light);
+            border: 2px solid var(--accent-blue);
+            border-radius: 60px;
+            padding: 0.5rem 2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 1rem 0 2rem 0;
+            color: var(--accent-blue);
+        }
+
+        /* Email form */
+        .form-section {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .email-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            margin-left: 0.5rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 18px 22px;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 60px;
+            outline: none;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: border 0.15s, box-shadow 0.15s;
+            margin-bottom: 1rem;
+        }
+
+        .email-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(30,75,210,0.15);
+        }
+
+        .dark-theme .email-input:focus {
+            box-shadow: 0 0 0 3px rgba(82,130,255,0.25);
+        }
+
+        .email-input::placeholder {
+            color: var(--footer-text);
+            opacity: 0.6;
+        }
+
+        .submit-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 18px 38px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .submit-btn:hover { 
+            background-color: #1340b0; 
+        }
+        
+        .dark-theme .submit-btn:hover { 
+            background-color: #6d96ff; 
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Status messages */
+        .status-message {
+            padding: 1rem;
+            border-radius: 40px;
+            margin-top: 1.5rem;
+            font-weight: 500;
+            display: none;
+            text-align: center;
+        }
+
+        .status-success {
+            background: #e6f7e6;
+            border: 2px solid #28a745;
+            color: #1e7e34;
+        }
+
+        .dark-theme .status-success {
+            background: #1a3a1a;
+            border: 2px solid #28a745;
+            color: #9fdf9f;
+        }
+
+        .status-error {
+            background: #ffe6e6;
+            border: 2px solid #dc3545;
+            color: #b02a37;
+        }
+
+        .dark-theme .status-error {
+            background: #3a1a1a;
+            border: 2px solid #dc3545;
+            color: #ffb3b3;
+        }
+
+        .fine-print {
+            font-size: 0.9rem;
+            color: var(--footer-text);
+            margin-top: 2rem;
+            border-top: 1px dashed var(--border-light);
+            padding-top: 1.5rem;
+        }
+
+        .winners-preview {
+            border-top: 1px dashed var(--border-light); 
+            padding-top: 28px; 
+            margin-top: 30px;
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        
+        .winners-title { 
+            font-weight: 600; 
+            font-size: 1rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            color: var(--accent-blue); 
+        }
+        
+        .winner-list { 
+            display: flex; 
+            gap: 36px; 
+            color: var(--text-secondary); 
+        }
+        
+        .winner-list span i { 
+            color: var(--accent-blue); 
+            margin-right: 6px; 
+        }
+
+        .site-footer {
+            text-align: center; 
+            padding: 32px 0 40px; 
+            border-top: 1px solid var(--header-border);
+            color: var(--footer-text); 
+            font-size: 0.95rem; 
+            margin-top: auto;
+        }
+
+        @media (max-width: 650px) {
+            .giveaway-card { padding: 32px 24px; }
+            .hero-title { font-size: 2.2rem; }
+            .winner-list { flex-wrap: wrap; gap: 16px; margin-top: 12px; }
+            .winners-preview { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="container">
+        <header class="top-bar">
+            <div class="logo-area">
+                <i class="fas fa-gift logo-icon"></i>
+                <div class="logo-text">RBX<span>Giveaway</span></div>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+        </header>
+
+        <main>
+            <div class="giveaway-card">
+                <h1 class="hero-title">Win <span>10,000 Robux</span> <br>this Saturday</h1>
+                <p class="hero-sub">Enter your email below for a chance to win. One lucky player takes it all every Saturday.</p>
+                
+                <div class="prize-badge">
+                    <i class="fas fa-trophy"></i> ONE WINNER EVERY WEEK <i class="fas fa-trophy"></i>
+                </div>
+
+                <!-- EMAIL FORM WITH GOOGLE APPS SCRIPT -->
+                <div class="form-section">
+                    <form id="giveawayForm">
+                        <label for="email" class="email-label">📧 YOUR EMAIL ADDRESS</label>
+                        <input type="email" 
+                               class="email-input" 
+                               id="email" 
+                               name="email" 
+                               placeholder="robloxplayer@email.com"
+                               required
+                               pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                               title="Enter a valid email address">
+                        
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <i class="fas fa-arrow-right"></i> Enter Giveaway
+                        </button>
+                    </form>
+
+                    <!-- Status messages -->
+                    <div id="successMessage" class="status-message status-success">
+                        <i class="fas fa-check-circle"></i> ✅ You're entered! Good luck!
+                    </div>
+                    <div id="errorMessage" class="status-message status-error">
+                        <i class="fas fa-exclamation-circle"></i> ❌ Please enter a valid email
+                    </div>
+                    <div id="serverErrorMessage" class="status-message status-error">
+                        <i class="fas fa-exclamation-circle"></i> ⚠️ Server error. Please try again.
+                    </div>
+                </div>
+
+                <p class="fine-print">
+                    <i class="far fa-clock" style="margin-right: 4px;"></i> One entry per person · Winner announced every Saturday at 00:00 UTC
+                </p>
+
+                <!-- Recent winners -->
+                <div class="winners-preview">
+                    <span class="winners-title"><i class="fas fa-trophy" style="margin-right: 6px;"></i>RECENT WINNERS</span>
+                    <div class="winner-list">
+                        <span><i class="fas fa-user"></i> xXRobloxKing</span>
+                        <span><i class="fas fa-user"></i> bloxy_queen</span>
+                        <span><i class="fas fa-user"></i> Builderman_23</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust row -->
+            <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin: 30px 0 10px; color: var(--text-secondary);">
+                <span><i class="fas fa-check-circle" style="color: var(--accent-blue);"></i> 100% legit</span>
+                <span><i class="fas fa-calendar-alt" style="color: var(--accent-blue);"></i> Every Saturday</span>
+                <span><i class="fas fa-shield-alt" style="color: var(--accent-blue);"></i> 10k Robux prize</span>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2025 RBXGiveaway · Independent giveaway, not affiliated with Roblox Corporation</p>
+            <p style="margin-top: 10px;"><i class="far fa-envelope"></i> contact@rbxgiveaway.example | <i class="fab fa-discord"></i> Discord</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const savedTheme = localStorage.getItem('rbxTheme') || 'light-theme';
+            body.classList.add(savedTheme);
+            
+            function setTheme(theme) {
+                body.classList.remove('light-theme', 'dark-theme');
+                body.classList.add(theme);
+                localStorage.setItem('rbxTheme', theme);
+            }
+            
+            themeToggle.addEventListener('click', () => {
+                setTheme(body.classList.contains('light-theme') ? 'dark-theme' : 'light-theme');
+            });
+
+            // Email form handling
+            const form = document.getElementById('giveawayForm');
+            const emailInput = document.getElementById('email');
+            const submitBtn = document.getElementById('submitBtn');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            const serverErrorMsg = document.getElementById('serverErrorMessage');
+
+            // Hide all messages initially
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            serverErrorMsg.style.display = 'none';
+
+            // Email validation
+            function isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            // Hide all messages
+            function hideAllMessages() {
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'none';
+                serverErrorMsg.style.display = 'none';
+            }
+
+            // Real-time validation
+            emailInput.addEventListener('input', function() {
+                if (isValidEmail(this.value.trim())) {
+                    this.style.borderColor = '#28a745';
+                } else {
+                    this.style.borderColor = 'var(--border-light)';
+                }
+                hideAllMessages();
+            });
+
+            // Form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const email = emailInput.value.trim();
+
+                if (!isValidEmail(email)) {
+                    errorMsg.style.display = 'block';
+                    emailInput.style.borderColor = '#dc3545';
+                    setTimeout(() => {
+                        errorMsg.style.display = 'none';
+                    }, 3000);
+                    return;
+                }
+
+                // Show loading state
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                submitBtn.disabled = true;
+
+                try {
+                    // IMPORTANT: Replace this URL with your Google Apps Script URL
+                    const scriptUrl = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+                    
+                    // Prepare data
+                    const formData = new FormData();
+                    formData.append('email', email);
+                    formData.append('timestamp', new Date().toISOString());
+                    formData.append('username', 'web_entry'); // Optional: you can add username field if needed
+
+                    // Send to Google Sheets
+                    const response = await fetch(scriptUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    // Check if response is OK
+                    if (response.ok || response.status === 200) {
+                        // Show success message
+                        hideAllMessages();
+                        successMsg.style.display = 'block';
+                        
+                        // Reset form
+                        form.reset();
+                        emailInput.style.borderColor = 'var(--border-light)';
+                        
+                        // Auto-hide success after 5 seconds
+                        setTimeout(() => {
+                            successMsg.style.display = 'none';
+                        }, 5000);
+                    } else {
+                        throw new Error('Server response not OK');
+                    }
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    serverErrorMsg.style.display = 'block';
+                    setTimeout(() => {
+                        serverErrorMsg.style.display = 'none';
+                    }, 4000);
+                } finally {
+                    // Restore button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
